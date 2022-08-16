@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
+using LeaveAndEmploymentWeb.Constants;
 using LeaveAndEmploymentWeb.Contracts;
 using LeaveAndEmploymentWeb.Data;
 using LeaveAndEmploymentWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LeaveAndEmploymentWeb.Controllers
 {
+
+    [Authorize(Roles = Roles.Administrator)]
     public class LeaveTypesController : Controller
     {
         

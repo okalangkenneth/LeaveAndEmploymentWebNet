@@ -4,6 +4,7 @@ using LeaveAndEmploymentWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveAndEmploymentWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220813212310_firstNameNullableInUserIdentity")]
+    partial class firstNameNullableInUserIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,10 +36,10 @@ namespace LeaveAndEmploymentWeb.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateJoined")
+                    b.Property<DateTime>("DateJoined")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateOfBirth")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -51,6 +53,7 @@ namespace LeaveAndEmploymentWeb.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -80,6 +83,7 @@ namespace LeaveAndEmploymentWeb.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaxId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -100,44 +104,6 @@ namespace LeaveAndEmploymentWeb.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8a9db887-45de-42b6-8c7f-a5c2f04952ad",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "63deeb23-98c1-45a0-a511-a645630afbf1",
-                            Email = "admin1@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "System",
-                            LastName = "Admin",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN1@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN1@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHDXR/pzv02tKsf8zcTiJ59/nXMvyvJGb8do0zNDdmZk4OqM4uohErVzUucLcuB6AA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "01c6ee7a-e7fa-444a-a5a2-4e810d1489d3",
-                            TwoFactorEnabled = false,
-                            UserName = "admin1@localhost.com"
-                        },
-                        new
-                        {
-                            Id = "b05ca33b-7973-4f88-946b-305fbb144272",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "2965114a-e50e-4c4e-aecf-d0c71b2d5c63",
-                            Email = "user@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "System",
-                            LastName = "User",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER@LOCALHOST.COM",
-                            NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMaMGz2z0VfoSTjk6SPUbNrtvmLgLjbGdik9313Lesnu4lYwLTANvfC9RsL+AkcsSA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "fa34e423-b21c-4c00-b5f4-b6dd517b4c1e",
-                            TwoFactorEnabled = false,
-                            UserName = "user@localhost.com"
-                        });
                 });
 
             modelBuilder.Entity("LeaveAndEmploymentWeb.Data.EmploymentAllocation", b =>
@@ -273,22 +239,6 @@ namespace LeaveAndEmploymentWeb.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b05ba33b - 7873 - 5f88 - 966b - 305fbb146272",
-                            ConcurrencyStamp = "6b1c3485-bb1f-48a7-8d52-97b4e6ce7519",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "b01ba33b - 5693 - 5c88 - 655b - 305fbb123472",
-                            ConcurrencyStamp = "2432cc46-8662-48d4-bca9-aa1773d80865",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -378,18 +328,6 @@ namespace LeaveAndEmploymentWeb.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "8a9db887-45de-42b6-8c7f-a5c2f04952ad",
-                            RoleId = "b05ba33b - 7873 - 5f88 - 966b - 305fbb146272"
-                        },
-                        new
-                        {
-                            UserId = "b05ca33b-7973-4f88-946b-305fbb144272",
-                            RoleId = "b01ba33b - 5693 - 5c88 - 655b - 305fbb123472"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
