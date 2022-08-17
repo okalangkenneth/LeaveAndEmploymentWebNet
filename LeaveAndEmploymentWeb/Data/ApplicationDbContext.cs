@@ -1,6 +1,7 @@
 ﻿using LeaveAndEmploymentWeb.Configurations.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using LeaveAndEmploymentWeb.Models;
 
 namespace LeaveAndEmploymentWeb.Data
 {
@@ -24,5 +25,8 @@ namespace LeaveAndEmploymentWeb.Data
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
         public DbSet<EmploymentAllocation> EmploymentAllocations { get; set; }
+       
+        
+        
     }
 }
