@@ -12,7 +12,7 @@ namespace LeaveAndEmploymentWeb.Models
 
         [Display(Name = "Default Number Of Days")]
         [Required]
-        [Range(1,25,ErrorMessage ="Please enter a valid number")]
+        [Range(1,100,ErrorMessage ="Please enter a valid number")]
         public int DefaultDays { get; set; }
 
     }

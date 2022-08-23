@@ -25,6 +25,7 @@ namespace LeaveAndEmploymentWeb.Data
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
         public DbSet<EmploymentAllocation> EmploymentAllocations { get; set; }
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
        
         
         
