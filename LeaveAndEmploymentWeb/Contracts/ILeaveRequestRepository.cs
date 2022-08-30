@@ -11,7 +11,7 @@ namespace LeaveAndEmploymentWeb.Contracts
 
         Task<LeaveRequestVM?> GetLeaveRequestAsync(int? id);
 
-        Task<List<LeaveRequest>> GetAllAsync(string employeeId);
+        Task<List<LeaveRequestVM>> GetAllAsync(string employeeId);
 
         Task<AdminRequestLeaveViewVM> GetAdminRequestLeaveList();
 

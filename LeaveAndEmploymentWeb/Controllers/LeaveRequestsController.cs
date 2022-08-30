@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using LeaveAndEmploymentWeb.Constants;
+using LeaveAndEmploymentWeb.Contracts;
+using LeaveAndEmploymentWeb.Data;
+using LeaveAndEmploymentWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LeaveAndEmploymentWeb.Data;
-using LeaveAndEmploymentWeb.Models;
-using AutoMapper;
-using LeaveAndEmploymentWeb.Contracts;
-using Microsoft.AspNetCore.Authorization;
-using LeaveAndEmploymentWeb.Constants;
 
 namespace LeaveAndEmploymentWeb.Controllers
 {

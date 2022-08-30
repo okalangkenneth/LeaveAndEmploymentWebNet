@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using LeaveAndEmploymentWeb.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using AutoMapper.QueryableExtensions;
 
 namespace LeaveAndEmploymentWeb.Repositories
 {
@@ -14,16 +17,22 @@ namespace LeaveAndEmploymentWeb.Repositories
         private readonly ApplicationDbContext context;
         private readonly UserManager<Employee> userManager;
         private readonly ILeaveTypeRepository leaveTypeRepository;
+        private readonly AutoMapper.IConfigurationProvider configurationProvider;
+        private readonly IEmailSender emailSender;
         private readonly IMapper mapper;
 
         public LeaveAllocationRepository(ApplicationDbContext context,
             UserManager<Employee> userManager, 
-            ILeaveTypeRepository leaveTypeRepository, 
+            ILeaveTypeRepository leaveTypeRepository,
+            AutoMapper.IConfigurationProvider configurationProvider,
+            IEmailSender emailSender,
             IMapper mapper) : base(context)
         {
             this.context = context;
             this.userManager = userManager;
             this.leaveTypeRepository = leaveTypeRepository;
+            this.configurationProvider = configurationProvider;
+            this.emailSender = emailSender;
             this.mapper = mapper;
         }
 
@@ -39,12 +48,13 @@ namespace LeaveAndEmploymentWeb.Repositories
             var allocations = await context.LeaveAllocations
                 .Include(q => q.LeaveType)
                 .Where(q => q.EmployeeId == employeeId)
+                .ProjectTo<LeaveAllocationVM>(configurationProvider)
                 .ToListAsync();
 
             var employee = await userManager.FindByIdAsync(employeeId);
 
             var employeeAllocationModel = mapper.Map<EmployeeAllocationVM>(employee);
-            employeeAllocationModel.LeaveAllocations= mapper.Map<List<LeaveAllocationVM>>(allocations);
+            employeeAllocationModel.LeaveAllocations= allocations;
 
             return employeeAllocationModel;
         }
@@ -52,6 +62,7 @@ namespace LeaveAndEmploymentWeb.Repositories
         {
             var allocation = await context.LeaveAllocations
                 .Include(q => q.LeaveType)
+                .ProjectTo<LeaveAllocationEditVM>(configurationProvider)
                 .FirstOrDefaultAsync(q => q.Id == id);
 
             if(allocation == null)
@@ -73,6 +84,7 @@ namespace LeaveAndEmploymentWeb.Repositories
             var period = DateTime.Now.Year;
             var leaveType = await leaveTypeRepository.GetAsync(leaveTypeId);
             var allocations = new List<LeaveAllocation>();
+            var employeesWithNewAllocations = new List<Employee>();
 
             foreach(var employee in employees)
             {
@@ -86,9 +98,16 @@ namespace LeaveAndEmploymentWeb.Repositories
                     Period = period,
                     NumberOfDays = leaveType.DefaultDays
                 });
+                employeesWithNewAllocations.Add(employee);
                 
             }
             await AddRangeAsync(allocations);
+
+            foreach(var employee in employeesWithNewAllocations)
+            {
+                await emailSender.SendEmailAsync(employee.Email, $"Leave allocation posted for {period}", $"Your {leaveType.Name} leave" +
+                    $"has been posted for the period of {period}. You have been given {leaveType.DefaultDays}.");
+            }
         }
 
         public  async Task <bool> UpdateEmployeeAllocation(LeaveAllocationEditVM model)
@@ -101,6 +120,13 @@ namespace LeaveAndEmploymentWeb.Repositories
             leaveAllocation.Period = model.Period;
             leaveAllocation.NumberOfDays = model.NumberOfdays;
             await UpdateAsync(leaveAllocation);
+
+            var user = await userManager.FindByIdAsync(leaveAllocation.EmployeeId);
+
+            await emailSender.SendEmailAsync(user.Email, $"Leave allocation updated for {leaveAllocation.Period}", 
+                "Please review your live allocations");
+
+
 
             return true;
         }
