@@ -16,11 +16,14 @@ namespace LeaveAndEmploymentWeb.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILeaveRequestRepository leaveRequestRepository;
+        private readonly ILogger<LeaveRequestsController> logger;
 
-        public LeaveRequestsController(ApplicationDbContext context, IMapper mapper, ILeaveRequestRepository leaveRequestRepository)
+        public LeaveRequestsController(ApplicationDbContext context, IMapper mapper, ILeaveRequestRepository leaveRequestRepository,
+            ILogger<LeaveRequestsController> logger)
         {
             _context = context;
            this.leaveRequestRepository = leaveRequestRepository;
+            this.logger = logger;
         }
 
         [Authorize(Roles = Roles.Administrator)]
@@ -64,7 +67,7 @@ namespace LeaveAndEmploymentWeb.Controllers
             }
             catch (Exception ex)
             {
-
+                logger.LogError(ex, "Error Approving leave request");
                 throw;
             }
             return RedirectToAction(nameof(Index));
@@ -81,7 +84,7 @@ namespace LeaveAndEmploymentWeb.Controllers
             }
             catch (Exception ex)
             {
-
+                logger.LogError(ex, "Error cancelling leave request");
                 throw;
             }
             return RedirectToAction(nameof(MyLeave));
@@ -122,6 +125,7 @@ namespace LeaveAndEmploymentWeb.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error creating leave request");
                 ModelState.AddModelError(string.Empty, "An Error Has Occurrred. Please Try Again Later");
             }
 

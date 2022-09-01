@@ -1,6 +1,4 @@
-﻿using LeaveAndEmploymentWeb.Data;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LeaveAndEmploymentWeb.Models
 {
@@ -19,9 +17,10 @@ namespace LeaveAndEmploymentWeb.Models
         public bool? Approved { get; set; }
         public bool Cancelled { get; set; }
 
-        public string? RequestingEmployeeId { get; set; }
+        public string RequestingEmployeeId { get; set; }
 
         public EmployeeListVM Employee { get; set; }
+        public int NumberOfDays { get; set; }
 
     }
 }
