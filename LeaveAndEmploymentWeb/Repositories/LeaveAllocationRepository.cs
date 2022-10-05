@@ -1,14 +1,13 @@
-﻿using LeaveAndEmploymentWeb.Constants;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using LeaveAndEmploymentWeb.Constants;
 using LeaveAndEmploymentWeb.Contracts;
 using LeaveAndEmploymentWeb.Data;
 using LeaveAndEmploymentWeb.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using LeaveAndEmploymentWeb.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using AutoMapper.QueryableExtensions;
 
 namespace LeaveAndEmploymentWeb.Repositories
 {

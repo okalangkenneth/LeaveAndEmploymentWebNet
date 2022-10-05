@@ -8,11 +8,11 @@ namespace LeaveAndEmploymentWeb.Models
 
 
         [Display(Name="First Name")]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
 
 
         [Display(Name = "Last Name")]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
 
 
         [Display(Name = "Date Joined")]
@@ -22,6 +22,6 @@ namespace LeaveAndEmploymentWeb.Models
 
 
         [Display(Name = "Email Address")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
     }
 }
